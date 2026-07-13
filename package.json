@@ -1,0 +1,11 @@
+{
+  "name": "com.bz.unityutils",
+  "displayName": "Drills",
+  "description": "Drills for XR Placement",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "author": "bz (https://github.com/BeniZan/Drills)",
+  "homepage": "https://github.com/BeniZan/Drills",
+  "dependencies": { 
+  }
+}
