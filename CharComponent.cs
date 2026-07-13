@@ -1,9 +1,10 @@
 using Sirenix.OdinInspector; 
 using UnityEngine;
 using UnityEngine.Animations;  
-using UnityEngine.Playables;  
-
+using UnityEngine.Playables;
+#if DRILL_EXPORT_EDITOR
 [ExecuteInEditMode]
+#endif
 [SelectionBase]
 public class CharComponent : MonoBehaviour {
     static readonly int AV_MirrorHash = Animator.StringToHash("is_mirror");
@@ -29,8 +30,9 @@ public class CharComponent : MonoBehaviour {
         if(_data == null)
             return;
         _data.FieldStandardPosition = transform.position;
-        _data.yRotation = transform.rotation.eulerAngles.y; 
-    }
+        _data.yRotation = transform.rotation.eulerAngles.y;
+    } 
+
 
     PlayableGraph _graph;
     AnimationPlayableOutput _output;
@@ -70,10 +72,7 @@ public class CharComponent : MonoBehaviour {
             _controllerPlayable.Play("Clip", 0, normalized); 
         }
         if(_graph.IsValid())
-            _graph.Evaluate();
-
-        //transform.localPosition += _anim.velocity; 
-        //transform.localRotation *= _anim.deltaRotation;
+            _graph.Evaluate(); 
     } 
     void SetAnim(AnimationClip clip) {
         if (clip == Clip)

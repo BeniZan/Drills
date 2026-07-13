@@ -8,7 +8,7 @@ using Sirenix.Utilities.Editor;
 #endif
 
 [System.Serializable]
-public class Drill : ScriptableObject {
+public class DrillData : ScriptableObject {
     public enum Category { 
         PickAndRoll,
         Shooting,

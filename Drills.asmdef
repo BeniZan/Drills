@@ -1,0 +1,16 @@
+{
+    "name": "Drills",
+    "rootNamespace": "",
+    "references": [
+        "GUID:27364c2f4c568624e9533205226eb160"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
