@@ -8,8 +8,16 @@ using UnityEngine.Playables;
 [SelectionBase]
 public class CharComponent : MonoBehaviour {
     static readonly int AV_MirrorHash = Animator.StringToHash("is_mirror");
-    [SerializeField] Animator _anim;
+    static readonly Color _EnemyColor = Color.softRed;
+    static readonly Color _AllyColor = Color.white; 
     [ShowInInspector, SerializeField] CharData _data;
+    [SerializeField] SkinnedMeshRenderer[] _shirtRenderers;
+    [SerializeField] Animator[] _animatorSkins;
+
+    Animator _anim => _animatorSkins[_usedAnimatorSkinIdx];
+
+    int _usedAnimatorSkinIdx = 0;
+
     public CharData Data => _data;
     public Transform Head;
     [ShowInInspector]
@@ -23,16 +31,31 @@ public class CharComponent : MonoBehaviour {
             transform.SetLocalPositionAndRotation(pos, rot);
             _controllerPlayable.SetBool(AV_MirrorHash, mirror);
             SetAnim(data.Animation);
+                
+            _shirtRenderers[_usedAnimatorSkinIdx].sharedMaterial.color = data.IsFriendly ? _AllyColor : _EnemyColor;
         }
-    } 
+    }
 
-    void UpdateData() {
-        if(_data == null)
-            return;
-        _data.FieldStandardPosition = transform.position;
-        _data.yRotation = transform.rotation.eulerAngles.y;
-    } 
 
+    private void Awake() {
+        foreach(var skin in _shirtRenderers) {
+            skin.sharedMaterial = new Material(skin.sharedMaterial);      
+        }
+        RandomizeSkin();
+    }
+
+    public void RandomizeSkin() {
+        //todo
+        if (_animatorSkins.Length > 0) {
+            _usedAnimatorSkinIdx = Random.Range(0, _animatorSkins.Length);
+            for (int i = 0; i < _animatorSkins.Length; i++) {
+                _animatorSkins[i].gameObject.SetActive(i == _usedAnimatorSkinIdx);
+            }
+            RecreateGraph();
+        } else {
+            Debug.LogError("No animator skins assigned to CharComponent.");
+        }
+    }
 
     PlayableGraph _graph;
     AnimationPlayableOutput _output;
@@ -46,6 +69,9 @@ public class CharComponent : MonoBehaviour {
     void RecreateGraph() {
         _overrideAnimation = new AnimatorOverrideController(_anim.runtimeAnimatorController);
         _anim.runtimeAnimatorController = _overrideAnimation;
+
+        if(_graph.IsValid())
+            _graph.Destroy();
 
         _graph = PlayableGraph.Create("SingleAnimationGraph");
         _graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
