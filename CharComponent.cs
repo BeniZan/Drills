@@ -79,14 +79,14 @@ public class CharComponent : MonoBehaviour {
 
     PlayableGraph _graph;
     AnimationPlayableOutput _output;
-    private void OnEnable() {
+    private void OnEnable() { 
         _anim.fireEvents = false;
-        _anim.enabled = true;
+        _anim.speed = 0f;
         RecreateGraph(); 
     }
     AnimatorControllerPlayable _controllerPlayable;
     AnimatorOverrideController _overrideAnimation;
-    void RecreateGraph() {
+    void RecreateGraph() {  
         _overrideAnimation = new AnimatorOverrideController(_anim.runtimeAnimatorController);
         _anim.runtimeAnimatorController = _overrideAnimation;
 
