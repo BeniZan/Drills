@@ -147,6 +147,10 @@ public class CharComponent : MonoBehaviour {
     void SetAnim(AnimationClip clip) {
         if (clip == Clip)
             return;
+		
+		if(!_overrideAnimation)
+			RecreateGraph();
+		
         _overrideAnimation[_overrideAnimation.animationClips[0]] = clip;
     } 
 }
