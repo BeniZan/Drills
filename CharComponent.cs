@@ -80,7 +80,7 @@ public class CharComponent : MonoBehaviour {
     PlayableGraph _graph;
     AnimationPlayableOutput _output;
     private void OnEnable() {
-        _anim.fireEvents = true;
+        _anim.fireEvents = false;
         _anim.enabled = true;
         RecreateGraph(); 
     }
